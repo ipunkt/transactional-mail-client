@@ -1,0 +1,18 @@
+{
+    "name": "ipunkt/transactional-mail-client",
+    "description": "client to the ipunkt internal TransactionalMail service",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ipunkt\\TransactionalMailClient\\": "lib/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sven Speckmaier",
+            "email": "sps@ipunkt.biz"
+        }
+    ],
+    "require": {}
+}
