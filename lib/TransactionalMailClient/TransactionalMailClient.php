@@ -21,6 +21,14 @@ class TransactionalMailClient {
 	 */
 	private $password;
 
+	/**
+	 * If set - override 'to' given in sent with the recipients listed here.
+	 * used for easy testing
+	 *
+	 * @var string[]|false
+	 */
+	private $forceTo = false;
+
 	const VERSION_1_0_0 = '1.0.0';
 
 	/**
@@ -83,6 +91,9 @@ class TransactionalMailClient {
 		if( !is_array($parameters) )
 			throw new TransactionalMailException('Parameters must be an array');
 
+		if($this->forceTo !== false)
+			$to = $this->forceTo;
+
 		$username = $this->username;
 		$password = $this->password;
 		$url = $this->url;
@@ -126,6 +137,19 @@ class TransactionalMailClient {
 
 		if( $httpCode !== 200 )
 			throw new TransactionalMailException('Unkown error while sending: '.$result);
+	}
+
+	/**
+	 * Set an override for all `to` paraemters given to `send`
+	 * Use case: set in test or staging environments to send all e-mails to a test address
+	 *
+	 * @param string[]|string $forceTo
+	 */
+	public function setForceTo( $forceTo ) {
+		if( !is_array($forceTo) )
+			$forceTo = array($forceTo);
+
+		$this->forceTo = $forceTo;
 	}
 
 }
