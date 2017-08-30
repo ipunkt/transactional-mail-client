@@ -35,7 +35,7 @@ class ValidationException extends TransactionalMailException {
 	/**
 	 * @return array
 	 */
-	public function getData(): array {
+	public function getData() {
 		return $this->data;
 	}
 
