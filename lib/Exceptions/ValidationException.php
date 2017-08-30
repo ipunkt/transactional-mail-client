@@ -15,14 +15,20 @@ class ValidationException extends TransactionalMailException {
 	 * @var \Exception|null
 	 */
 	private $e;
+	/**
+	 * @var int
+	 */
+	private $request;
 
 	/**
 	 * ValidationException constructor.
 	 * @param array $data
+	 * @param string $request
 	 * @param int $code
 	 * @param \Exception|null $e
 	 */
-	public function __construct($data, $code = 0, \Exception $e = null) {
+	public function __construct($data, $request, $code = 0, \Exception $e = null) {
+		$this->request = $request;
 		$this->data = $data;
 
 		$lines = array();
@@ -37,6 +43,13 @@ class ValidationException extends TransactionalMailException {
 	 */
 	public function getData() {
 		return $this->data;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRequest() {
+		return $this->request;
 	}
 
 }

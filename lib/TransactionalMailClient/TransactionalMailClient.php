@@ -135,12 +135,12 @@ class TransactionalMailClient {
 
 		if( $httpCode === 401 ) {
 			$data = json_decode($result, true);
-			throw new AuthenticationException($data);
+			throw new AuthenticationException($data, $jsonData);
 		}
 
 		if( $httpCode === 422 ) {
 			$data = json_decode($result, true);
-			throw new ValidationException($data);
+			throw new ValidationException($data, $jsonData);
 		}
 
 		if( $httpCode !== 200 )
