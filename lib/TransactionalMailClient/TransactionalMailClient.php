@@ -1,4 +1,4 @@
-<?php namespace Ipunkt\TransactionalMailClient\Exceptions\TransactionalMailClient ;
+<?php namespace Ipunkt\TransactionalMailClient\TransactionalMailClient;
 use Ipunkt\TransactionalMailClient\Exceptions\AuthenticationException;
 use Ipunkt\TransactionalMailClient\Exceptions\TransactionalMailException;
 use Ipunkt\TransactionalMailClient\Exceptions\ValidationException;
