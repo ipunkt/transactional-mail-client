@@ -104,7 +104,7 @@ class TransactionalMailClient {
 		$url = $this->url;
 		if( $url[strlen($url) - 1] !== '/' )
 			$url .= '/';
-		$url .= 'api/mail';
+		$url .= $this->endpoint;
 		$headers = array(
 			'Content-Type: application/json',
 			'Accept: application/json',
