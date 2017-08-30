@@ -29,6 +29,11 @@ class TransactionalMailClient {
 	 */
 	private $forceTo = false;
 
+	/**
+	 * @var string
+	 */
+	private $endpoint = 'api/mail';
+
 	const VERSION_1_0_0 = '1.0.0';
 
 	/**
@@ -97,6 +102,9 @@ class TransactionalMailClient {
 		$username = $this->username;
 		$password = $this->password;
 		$url = $this->url;
+		if( $url[strlen($url) - 1] !== '/' )
+			$url .= '/';
+		$url .= 'api/mail';
 		$headers = array(
 			'Content-Type: application/json',
 			'Accept: application/json',
@@ -150,6 +158,15 @@ class TransactionalMailClient {
 			$forceTo = array($forceTo);
 
 		$this->forceTo = $forceTo;
+	}
+
+	/**
+	 * Changes default endpoint from api/mail
+	 *
+	 * @param string $endpoint
+	 */
+	public function setEndpoint( string $endpoint ) {
+		$this->endpoint = $endpoint;
 	}
 
 }
