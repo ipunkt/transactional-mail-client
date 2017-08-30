@@ -35,7 +35,7 @@ class ValidationException extends TransactionalMailException {
 		foreach($data as $field => $error)
 			$lines[] = "$field: $error";
 
-		parent::__construct("Validation failed: ".implode(", ", $lines), $code, $e);
+		parent::__construct("Validation failed: ".implode(", ", $lines).' Request: '.$request, $code, $e);
 	}
 
 	/**
