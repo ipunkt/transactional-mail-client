@@ -127,7 +127,7 @@ class TransactionalMailClient {
 		$jsonData = json_encode( array(
 			'platform' => $platform,
 			'action' => $action,
-			'to' => $to,
+			'to' => $recipientData,
 			'parameters' => $parameters
 		));
 
