@@ -1,7 +1,9 @@
-<?php namespace Ipunkt\TransactionalMailClient\TransactionalMailClient;
+<?php namespace Ipunkt\TransactionalMailClient\Client;
 use Ipunkt\TransactionalMailClient\Exceptions\AuthenticationException;
 use Ipunkt\TransactionalMailClient\Exceptions\TransactionalMailException;
 use Ipunkt\TransactionalMailClient\Exceptions\ValidationException;
+use Ipunkt\TransactionalMailClient\RecipientTransformer\EmailArrayRecipientTransformer;
+use Ipunkt\TransactionalMailClient\RecipientTransformer\RecipientTransformer;
 
 /**
  * Class TransactionalMailClient
@@ -46,6 +48,11 @@ class TransactionalMailClient {
 	private $version;
 
 	/**
+	 * @var RecipientTransformer
+	 */
+	private $recipientTransformer;
+
+	/**
 	 * TransactionalMailClient constructor.
 	 * @param string $url
 	 * @param  param string $username
@@ -60,6 +67,8 @@ class TransactionalMailClient {
 		$this->password = $password;
 		$this->url = $url;
 		$this->version = $version;
+
+		$this->recipientTransformer = new EmailArrayRecipientTransformer();
 	}
 
 	/**
@@ -86,7 +95,7 @@ class TransactionalMailClient {
 	/**
 	 * @param string $platform
 	 * @param string $action
-	 * @param array|string $to
+	 * @param Recipient|Recipient[] $to
 	 * @param array $parameters
 	 */
 	public function send( $platform, $action, $to, $parameters ) {
@@ -110,6 +119,10 @@ class TransactionalMailClient {
 			'Accept: application/json',
 			'Authorization: BASIC '.base64_encode($username.':'.$password),
 		);
+
+		$recipientData = [];
+		foreach($to as $recipient)
+			$recipientData[] = $this->recipientTransformer->makeRecipientData($recipient);
 
 		$jsonData = json_encode( array(
 			'platform' => $platform,
@@ -151,7 +164,7 @@ class TransactionalMailClient {
 	 * Set an override for all `to` paraemters given to `send`
 	 * Use case: set in test or staging environments to send all e-mails to a test address
 	 *
-	 * @param string[]|string $forceTo
+	 * @param Recipient[]|Recipient $forceTo
 	 */
 	public function setForceTo( $forceTo ) {
 		if( !is_array($forceTo) )
@@ -167,6 +180,13 @@ class TransactionalMailClient {
 	 */
 	public function setEndpoint( string $endpoint ) {
 		$this->endpoint = $endpoint;
+	}
+
+	/**
+	 * @param RecipientTransformer $recipientTransformer
+	 */
+	public function setRecipientTransformer( RecipientTransformer $recipientTransformer ) {
+		$this->recipientTransformer = $recipientTransformer;
 	}
 
 }
