@@ -120,7 +120,7 @@ class TransactionalMailClient {
 			'Authorization: BASIC '.base64_encode($username.':'.$password),
 		);
 
-		$recipientData = [];
+		$recipientData = array();
 		foreach($to as $recipient)
 			$recipientData[] = $this->recipientTransformer->makeRecipientData($recipient);
 
